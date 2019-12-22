@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>数据格式化</title>
+		<script src="../js/vue.js"></script>
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap.css"/>
+		<style type="text/css">
+			[v-cloak]{
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app" class="container">
+			<div class="row">
+				<form class="form-inline" style="margin-top: 20px;">
+				  <div class="form-group">
+				    <label for="exampleInputName2">ID</label>
+				    <input type="text" class="form-control">
+				  </div>
+				  <div class="form-group">
+				    <label for="exampleInputEmail2">Name</label>
+				    <input type="text" class="form-control" v-model="name">
+				  </div>
+				  <button type="button" class="btn btn-primary" @click="add">添加</button>
+				  <input type="text" class="form-control" v-model="keyword" >
+				</form>
+				
+				
+				<div class="table-responsive" style="margin-top: 50px;">
+				  <table class="table table-hover">
+				    <tr>
+				    	<td>ID</td>
+				    	<td>Name</td>
+				    	<td>Time</td>
+				    	<td>Operate</td>
+				    </tr>
+					<tr v-for="item in search(keyword)" :key="item.id">
+						<td v-text="item.id"></td>
+						<td v-text="item.name"></td>
+						<!-- <td v-text="item.time"></td> -->
+						<td v-cloak>{{item.time | dateFormat}}</td>
+						<td><a href="" @click.prevent="del(item.id)">删除</a></td>
+					</tr>
+				  </table>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		// 定义在此为的过滤器为全局公用过滤器
+		// 定义全局公共过滤器
+		// Vue.filter("dateFormat",function(msg, formatStr=""){
+		// 	var date = new Date(msg)
+		// 	var y = date.getFullYear()
+		// 	var m = date.getMonth() + 1
+		// 	var d = date.getDate()
+		// 	var hh = date.getHours()
+		// 	var mm = date.getMinutes()
+		// 	var ss = date.getSeconds()
+			
+		// 	if(formatStr.toLowerCase() == "yyyy-mm-dd"){
+		// 		return `${y}-${m}-${d}`
+		// 	}else{
+		// 		return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
+		// 	}
+		// })
+		
+		
+		var vm = new Vue({
+			el: "#app",
+			data: {
+				id: "",
+				name: "",
+				itemList:[
+					{id: 1, name: "奔驰", time: new Date()},
+					{id: 2, name: "宝马", time: new Date()},
+					{id: 3, name: "奥迪", time: new Date()},
+				],
+				keyword: ""
+				
+			},
+			methods: {
+				add(){
+					var id = this.itemList.length + 1
+					var item = {id: id, name: this.name, time: new Date()}
+					this.itemList.push(item)
+					this.name = ""
+				},
+				del(id){
+					var index = this.itemList.findIndex((item, i)=>{
+						if (item.id == i){
+							return true;
+						}
+					})
+					this.itemList.splice(index, 1)
+				},
+				search(keyword){
+					var newList = []
+					return this.itemList.filter(item => {
+						if(item.name.includes(keyword)){
+							return item
+						}
+					})
+				}
+			},
+			filters:{
+				dateFormat: function(msg, formatStr=""){
+					var date = new Date(msg)
+					var y = date.getFullYear()
+					var m = (date.getMonth() + 1).toString().padStart(2, "0")
+					var d = date.getDate().toString().padStart(2, "0")
+					var hh = date.getHours().toString().padStart(2, "0")
+					var mm = date.getMinutes().toString().padStart(2, "0")
+					var ss = date.getSeconds().toString().padStart(2, "0")
+					
+					if(formatStr.toLowerCase() == "yyyy-mm-dd"){
+						return `${y}-${m}-${d}`
+					}else{
+						return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
+					}
+				}
+			}
+		})
+	</script>
+</html>

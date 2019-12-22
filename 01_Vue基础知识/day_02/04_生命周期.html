@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Vue的生命周期</title>
+		<script src="../js/vue.js"></script>
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
+		<style type="text/css">
+			[v-cloak] {
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app" class="container">
+			<h1 id="h1">{{msg}}</h1>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var vm = new Vue({
+			el: "#app",
+			data: {
+				msg: "hello World",
+			},
+			methods:{
+				show(){
+					console.log("show方法执行了")
+				}
+			},
+			// 初始化之前，除了一些属性和生命周期函数，没有初始化任何数据和方法
+			beforeCreate() {
+				console.log(this.msg)  // undefine
+			},
+			// 初始化之后，加载了数据和方法，此时可以执行
+			created() {
+				console.log(this.msg)  // hello World
+				this.show()			   // show 方法执行了
+			},
+			// 执行一些模板编译过程
+			// 页面挂在之前，此时页面上的指令、表达式还是原生的，还未被替换
+			beforeMount() {
+				var content = document.getElementById("h1").innerText
+				console.log(content)
+			},
+			// 页面挂在之后，页面上的表达式和指令已经被解析替换
+			// 如果要操作页面的DOM节点，最早只能在mounted中操作
+			mounted() {
+				var content = document.getElementById("app").innerText
+				console.log(content)
+			},
+			// 至此，Vue实例，实例化过程完成，下面进入运行状态
+			
+			// 数据更新之前执行此方法，此时数据已经发生改变，但是数据尚未更新到页面上
+			beforeUpdate() {
+				var h1 = document.getElementById("h1").innerText
+				alert(h1)
+			},
+			// 页面上的数据，更新之后执行此方法
+			updated() {
+				alert(this.msg)
+			}
+			
+		})
+	</script>
+</html>

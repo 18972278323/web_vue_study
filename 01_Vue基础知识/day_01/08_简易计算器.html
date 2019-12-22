@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>简易计算器</title>
+		<script src="../js/vue.js"></script>
+		<style type="text/css">
+			.red{
+				color: red;
+			}
+			
+			.thin{
+				font-weight: 200;
+			}
+			
+			.italic{
+				font: italic;
+			}
+			
+			.active{
+				letter-spacing: 0.5em;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<!-- 第一种方式：
+				使用v-bind 进行绑定，使用数组获取，获取每个样式需要使用单引号引用
+				第二种方式
+				在数组中使用三元表达式
+				第三种方式
+				在数组中使用对象
+				第四种方式
+				直接使用对象，类名为键，引号可加可不加，标识符为值
+				第五种方式
+				使用对象，但是从data属性中获取，
+			 -->
+			<h1 :class="['red', 'thin',]">这是一个H1</h1>
+			<h1 :class="['red', 'thin', flag?'active':'' ]">这是一个H1</h1>
+			<h1 :class="['red', 'thin', {'active': flag}]">这是一个H1</h1>
+			<h1 :class="{red: true, thin: false }">这是一个H1</h1>
+			<h1 :class="{red: true, thin: false }">这是一个H1</h1>
+			<h1 :class="classObj">这是一个H1</h1>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var vm = new Vue({
+			el: "#app",
+			data: {
+				flag: true,
+				classObj: {red: true, thin: false }
+			},
+		})
+	</script>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>事件修饰符</title>
+		<script src="../js/vue.js"></script>
+		<style type="text/css">
+			.outer {
+				height: 100px;
+				width: 100px;
+				background-color: aqua;
+			}
+		</style>
+	</head>
+	<body>
+		
+		<!-- 
+			1. 阻止冒泡事件修饰符
+			.stop: 在内层元素的事件上添加 stop 事件
+			
+			2. 阻止默认行为时间修饰符
+			.prevent: 例如组织a标签的默认行为，阻止其跳转链接
+			
+			3. 实现捕获触发机制
+			.capture: 类似于冒泡，但是先执行外部的事件
+			
+			4. 仅自己才能触发事件
+			.self: 
+			
+			5. 仅触发一次事件
+			.once:
+		 -->
+		
+		<div id="app">
+			<div class="outer" @click="divHendler">
+				<input type="button" value="事件冒泡" @click.stop="btnHandler"/>
+			</div>
+			
+			<a href="https://www.baidu.com" @click.prevent="linkHandler">去百度</a><br />
+			
+			<div class="outer" @click.capture="divHendler">
+				<input type="button" value="捕获机制" @click="btnHandler"/>
+			</div>
+			<br>
+			<div class="outer" @click.self="divHendler">
+				<input type="button" value="捕获机制" @click="btnHandler"/>
+			</div>
+			<br>
+			<input type="button" value="仅仅触发一次" @click.once="btnHandler"/>
+		</div>
+		
+		<script>
+			var app = new Vue({
+				el: "#app",
+				data:{
+					intervalId: null
+				},
+				methods:{
+					divHendler(){
+						console.log("触发了DIV的事件")
+					},
+					btnHandler(){
+						console.log("触发了BTN的事件")
+					},
+					linkHandler(){
+						alert("阻止了A标签的默认行为")
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

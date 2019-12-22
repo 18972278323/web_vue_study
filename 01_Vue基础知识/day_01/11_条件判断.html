@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>条件判断</title>
+		<script src="../js/vue.js"></script>
+	</head>
+	<body>
+		<!-- 
+			对比而言：
+			v-if：涉及到元素的添加和移除，会消耗更多性能
+		 
+		 -->
+		
+		<div id="app">
+			<input type="button" :value="title" @click="flag = !flag" />
+			<h1 v-if="flag">V-IF控制的内容</h1>
+			<h1 v-show="flag">V-SHOW控制的内容</h1>
+			
+		</div>
+	</body>
+	<script type="text/javascript">
+		var vm = new Vue({
+			el: "#app",
+			data: {
+				flag: true,
+				title : "切换"
+			},
+			methods: {
+				
+			}
+		})
+	</script>
+</html>
